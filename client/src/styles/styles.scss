@@ -1,0 +1,38 @@
+/* You can add global styles to this file, and also import other style files */
+@forward 'reset';
+@forward 'colors';
+@forward 'typography';
+
+.hidden {
+  display: none;
+}
+
+.container {
+  --max-width: 1280px;
+  --sidePadding: 1rem;
+
+  width: min(var(--max-width), (100% - (var(--sidePadding) * 2)));
+  margin-inline: auto;
+}
+
+.primary-button {
+  border: none;
+  background-color: var(--clr-primary);
+  padding: 12px 36px 10px 36px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s ease-in-out;
+  &:hover {
+    background-color: rgba(184, 142, 47, 0.7);
+  }
+  & > a {
+    color: var(--clr-white);
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+}
