@@ -1,8 +1,6 @@
 package com.example.plugins
 
-import com.example.routing.categories
-import com.example.routing.orders
-import com.example.routing.products
+import com.example.routing.*
 import com.example.service.impl.AzureBlobServiceImpl
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
@@ -29,6 +27,8 @@ fun Application.configureRouting() {
         categories(azureBlobService)
         products(azureBlobService)
         orders()
+        feedbacks()
+        reviews()
         staticResources("/static", "static")
     }
 }

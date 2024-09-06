@@ -4,11 +4,13 @@ import com.example.model.Review
 import com.example.model.ReviewDTO
 import com.example.repository.ReviewRepository
 import com.example.service.ReviewService
+import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 class ReviewServiceImpl(private val reviewRepository: ReviewRepository = ReviewRepository()) : ReviewService {
-    override fun getByProductId(productId: UUID): List<ReviewDTO> =
+    override fun getByProductId(productId: UUID): List<ReviewDTO> = transaction {
         reviewRepository.getReviewsByProductId(productId).map { it.toDto() }
+    }
 
     override fun addReview(reviewDTO: ReviewDTO) {
         reviewRepository.addReview(reviewDTO)

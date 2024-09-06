@@ -31,5 +31,7 @@ fun Application.configureDatabases() {
         SchemaUtils.create(Addresses)
         SchemaUtils.create(Orders)
         SchemaUtils.create(OrdersProducts)
+        SchemaUtils.create(Feedbacks)
+        SchemaUtils.create(Reviews)
     }
 }

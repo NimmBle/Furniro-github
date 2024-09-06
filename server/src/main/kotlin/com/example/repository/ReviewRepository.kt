@@ -5,6 +5,7 @@ import com.example.model.Review
 import com.example.model.ReviewDTO
 import com.example.model.Reviews
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.time.LocalDate
 import java.util.UUID
 
 class ReviewRepository {
@@ -20,6 +21,8 @@ class ReviewRepository {
                 ?: throw IllegalArgumentException("Product not found")
             this.rating = reviewDTO.rating
             this.comment = reviewDTO.comment
+            this.creationDate = LocalDate.now()
+            this.lastUpdatedDate = LocalDate.now()
         }
     }
 }

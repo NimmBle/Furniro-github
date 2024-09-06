@@ -21,7 +21,7 @@ fun Route.feedbacks() {
 
     val feedbackService: FeedbackService = FeedbackServiceImpl()
 
-    route("/categories") {
+    route("/feedback") {
         get {
             try {
                 val feedbacks = feedbackService.getAll()
@@ -39,8 +39,8 @@ fun Route.feedbacks() {
         post("/add") {
             try {
                 val feedbackDTO = Json.decodeFromString<FeedbackDTO>(call.receiveText())
-                val feedback = feedbackService.addFeedback(feedbackDTO)
-                call.respond(HttpStatusCode.OK, Json.encodeToString(feedback))
+                feedbackService.addFeedback(feedbackDTO)
+                call.respond(HttpStatusCode.OK)
                 return@post
             } catch (e: IllegalArgumentException) {
                 call.respond(HttpStatusCode.BadRequest)
