@@ -1,14 +1,15 @@
 package com.example.service
 
 import com.example.model.ProductDTO
+import io.ktor.http.content.*
 
 interface ProductService {
 
     fun getAll(): List<ProductDTO>
 
-    fun addProduct(product: ProductDTO)
+    suspend fun addProduct(multipart: MultiPartData)
 
-    fun editProduct(oldName: String, product: ProductDTO)
+    suspend fun editProduct(oldName: String, multipart: MultiPartData)
 
     fun deleteProduct(name: String)
 }

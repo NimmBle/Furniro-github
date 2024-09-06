@@ -43,7 +43,7 @@ class ProductPhoto(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<ProductPhoto>(ProductPhotos)
 
     var productId by ProductPhotos.productId
-    var photoUrl by ProductPhotos.photoUrl
+    var imageUrl by ProductPhotos.photoUrl
 }
 
 enum class ProductSizeEnum {
@@ -119,3 +119,24 @@ fun ResultRow.toProductDTO() = ProductDTO(
     sizes = mutableListOf(),
     colors = mutableListOf()
 )
+
+fun ResultRow.toProductColor() = ProductColor(
+    id = this[ProductColors.id]
+).apply {
+    productId = this@toProductColor[ProductColors.productId]
+    name = this@toProductColor[ProductColors.name]
+}
+
+fun ResultRow.toProductSize() = ProductSize(
+    id = this[ProductSizes.id]
+).apply {
+    productId = this@toProductSize[ProductSizes.productId]
+    size = this@toProductSize[ProductSizes.size]
+}
+
+fun ResultRow.toProductPhoto() = ProductPhoto(
+    id = this[ProductPhotos.id]
+).apply {
+    productId = this@toProductPhoto[ProductPhotos.productId]
+    imageUrl = this@toProductPhoto[ProductPhotos.photoUrl]
+}

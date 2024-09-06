@@ -1,23 +1,23 @@
 package com.example.routing
 
 import com.example.service.AzureBlobService
-import com.example.service.CategoryService
-import com.example.service.impl.CategoryServiceImpl
+import com.example.service.ProductService
+import com.example.service.impl.ProductServiceImpl
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-fun Route.categories(azureBlobService: AzureBlobService) {
+fun Route.products(azureBlobService: AzureBlobService) {
 
-    val categoryService: CategoryService = CategoryServiceImpl(azureBlobService = azureBlobService)
+    val productService: ProductService = ProductServiceImpl(azureBlobService = azureBlobService)
 
-    route("/categories") {
+    route("/products") {
         get {
             try {
-                val categories = categoryService.getAllCategories()
-                call.respond(HttpStatusCode.OK, categories)
+                val products = productService.getAll()
+                call.respond(HttpStatusCode.OK, products)
             } catch (e: IllegalArgumentException) {
                 call.respond(HttpStatusCode.BadRequest)
             }
@@ -26,7 +26,7 @@ fun Route.categories(azureBlobService: AzureBlobService) {
         post("/add") {
             val multipart = call.receiveMultipart()
             try {
-                call.respond(categoryService.createCategory(multipart))
+                call.respond(productService.addProduct(multipart))
             } catch (e: IllegalArgumentException) {
                 call.respond(HttpStatusCode.BadRequest)
             }
@@ -42,7 +42,7 @@ fun Route.categories(azureBlobService: AzureBlobService) {
             }
 
             try {
-                call.respond(categoryService.updateCategory(oldName, multipart))
+                call.respond(productService.editProduct(oldName, multipart))
             } catch (e: IllegalArgumentException) {
                 call.respond(HttpStatusCode.BadRequest)
             }
@@ -51,7 +51,7 @@ fun Route.categories(azureBlobService: AzureBlobService) {
         delete("/{name}") {
             val name: String? = call.parameters["name"]
             if (name != null) {
-                call.respond(categoryService.deleteCategory(name))
+                call.respond(productService.deleteProduct(name))
             } else {
                 call.respond(HttpStatusCode.NotFound)
             }

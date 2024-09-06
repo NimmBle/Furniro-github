@@ -16,5 +16,5 @@ class ProductPhotoServiceImpl(private val productPhotoRepository: ProductPhotoRe
         }
 
         override fun getByProductId(productId: UUID): List<String> =
-            productPhotoRepository.getByProductId(productId).map { it.photoUrl }
+            productPhotoRepository.getByProductId(productId).map { it.imageUrl }
 }
