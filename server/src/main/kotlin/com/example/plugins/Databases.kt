@@ -28,5 +28,8 @@ fun Application.configureDatabases() {
         SchemaUtils.create(ProductSizes)
         SchemaUtils.create(ProductColors)
         SchemaUtils.create(Products)
+        SchemaUtils.create(Addresses)
+        SchemaUtils.create(Orders)
+        SchemaUtils.create(OrdersProducts)
     }
 }

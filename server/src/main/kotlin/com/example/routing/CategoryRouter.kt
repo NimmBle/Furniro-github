@@ -8,6 +8,9 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 fun Route.categories(azureBlobService: AzureBlobService) {
 
@@ -17,9 +20,12 @@ fun Route.categories(azureBlobService: AzureBlobService) {
         get {
             try {
                 val categories = categoryService.getAllCategories()
-                call.respond(HttpStatusCode.OK, categories)
+                call.respond(HttpStatusCode.OK, Json.encodeToString(categories))
                 return@get
-            } catch (e: IllegalArgumentException) {
+            } catch (e: SerializationException) {
+                e.printStackTrace()
+            }
+            catch (e: IllegalArgumentException) {
                 call.respond(HttpStatusCode.BadRequest)
                 return@get
             }
@@ -28,7 +34,8 @@ fun Route.categories(azureBlobService: AzureBlobService) {
         post("/add") {
             val multipart = call.receiveMultipart()
             try {
-                call.respond(HttpStatusCode.OK, categoryService.createCategory(multipart))
+                val category = categoryService.createCategory(multipart)
+                call.respond(HttpStatusCode.OK, Json.encodeToString(category))
                 return@post
             } catch (e: IllegalArgumentException) {
                 call.respond(HttpStatusCode.BadRequest)

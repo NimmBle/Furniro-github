@@ -3,16 +3,17 @@ package com.example.repository
 import com.example.model.Categories
 import com.example.model.Category
 import com.example.model.CategoryDTO
-import com.example.model.toCategory
-import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
 import java.time.LocalDate
 
 class CategoryRepository {
 
     fun getAll(): List<Category> = transaction {
-        val categories = Categories.selectAll().toList().map { it.toCategory() }
+        val categories = Category.all().toList()
         return@transaction categories
     }
 

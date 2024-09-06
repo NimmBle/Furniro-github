@@ -1,5 +1,6 @@
 package com.example.model
 
+import com.example.plugins.UUIDSerializer
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.UUIDEntity
@@ -84,8 +85,8 @@ class ProductColor(id: EntityID<UUID>) : UUIDEntity(id) {
 
 @Serializable
 data class ProductDTO(
-    @Contextual val id: UUID? = null,
-    @Contextual val categoryId: UUID? = null,
+    @Serializable(with = UUIDSerializer::class) val id: UUID? = null,
+    @Serializable(with = UUIDSerializer::class) val categoryId: UUID? = null,
     val name: String,
     val shortDescription: String,
     val fullDescription: String,

@@ -1,5 +1,6 @@
 package com.example.model
 
+import com.example.plugins.UUIDSerializer
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.UUIDEntity
@@ -24,7 +25,7 @@ class Category(id: EntityID<UUID>) : UUIDEntity(id) {
 
 @Serializable
 data class CategoryDTO(
-    @Contextual val id: UUID? = null,
+    @Serializable(with = UUIDSerializer::class) val id: UUID? = null,
     val name: String,
     val coverPhotoUrl: String?
 )

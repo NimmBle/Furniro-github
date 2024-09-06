@@ -11,7 +11,7 @@ import java.time.LocalDate
 class ProductRepository {
 
     fun getAll(): List<Product> = transaction {
-        Products.selectAll().toList().map { it.toProduct() }
+        Product.all().toList()
     }
 
     fun getByProductName(name: String): Product? = transaction {

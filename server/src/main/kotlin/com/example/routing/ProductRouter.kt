@@ -9,6 +9,8 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 fun Route.products(azureBlobService: AzureBlobService) {
 
@@ -21,7 +23,7 @@ fun Route.products(azureBlobService: AzureBlobService) {
         get {
             try {
                 val products = productService.getAll()
-                call.respond(HttpStatusCode.OK, products)
+                call.respond(HttpStatusCode.OK, Json.encodeToString(products))
                 return@get
             } catch (e: IllegalArgumentException) {
                 call.respond(HttpStatusCode.BadRequest)
@@ -32,7 +34,8 @@ fun Route.products(azureBlobService: AzureBlobService) {
         post("/add") {
             val multipart = call.receiveMultipart()
             try {
-                call.respond(HttpStatusCode.OK, productService.addProduct(multipart))
+                val product = productService.addProduct(multipart)
+                call.respond(HttpStatusCode.OK, Json.encodeToString(product))
                 return@post
             } catch (e: IllegalArgumentException) {
                 call.respond(HttpStatusCode.BadRequest)

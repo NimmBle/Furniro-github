@@ -10,6 +10,8 @@ import com.example.service.product.ProductPhotoService
 import com.example.service.product.ProductService
 import com.example.service.product.ProductSizeService
 import io.ktor.http.content.*
+import org.jetbrains.exposed.sql.transactions.transaction
+import java.util.*
 
 class ProductServiceImpl(
     private val productRepository: ProductRepository = ProductRepository(),
@@ -66,16 +68,16 @@ class ProductServiceImpl(
 
         colors.forEach {
             val colorsCurr = productColorService.getByProductId(productId)
-            if (!colorsCurr.contains(it)) {
-                productColorService.addProductColor(productId, it)
-            }
 
             colorsCurr.forEach { curr ->
                 if (!colors.contains(curr)) {
                     productColorService.deleteProductColor(productId, curr)
                 }
             }
-            productColorService.addProductColor(productId, it)
+
+            if (!colorsCurr.contains(it)) {
+                productColorService.addProductColor(productId, it)
+            }
         }
         sizes.forEach {
             val sizesCurr = productSizeService.getByProductId(productId)
@@ -113,21 +115,23 @@ class ProductServiceImpl(
         productRepository.deleteProduct(name)
     }
 
-    private fun Product.toDTO() = ProductDTO(
-        id = id.value,
-        name = name,
-        shortDescription = shortDescription,
-        fullDescription = fullDescription,
-        price = price,
-        discount = discount,
-        stock = stock,
-        markAsNew = markAsNew,
-        coverPhotoUrl = coverPhotoUrl,
-        categoryId = category.id.value,
-        photos = mutableListOf(),
-        sizes = mutableListOf(),
-        colors = mutableListOf()
-    )
+    private fun Product.toDTO() = transaction {
+        ProductDTO(
+            id = UUID.fromString(id),
+            name = name,
+            shortDescription = shortDescription,
+            fullDescription = fullDescription,
+            price = price,
+            discount = discount,
+            stock = stock,
+            markAsNew = markAsNew,
+            coverPhotoUrl = coverPhotoUrl,
+            categoryId = category.id.value,
+            photos = mutableListOf(),
+            sizes = mutableListOf(),
+            colors = mutableListOf()
+        )
+    }
 
     private suspend fun uploadImages(multipart: MultiPartData): Pair<Pair<ProductDTO, MutableList<String>>, Pair<List<String>, List<String>>> {
 
