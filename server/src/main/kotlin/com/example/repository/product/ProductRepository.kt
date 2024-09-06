@@ -18,6 +18,10 @@ class ProductRepository {
         Product.find { Products.name eq name }.firstOrNull()
     }
 
+    fun getPagination(count: Int, page: Long) = transaction {
+        Product.all().limit(count, page * count).toList()
+    }
+
     fun addProduct(product: ProductDTO) = transaction {
         Product.new {
             name = product.name

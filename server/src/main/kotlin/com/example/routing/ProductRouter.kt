@@ -31,6 +31,20 @@ fun Route.products(azureBlobService: AzureBlobService) {
             }
         }
 
+        get("/{page}/{size}") {
+            val page: Int = call.parameters["page"]?.toInt() ?: 0
+            val size: Long = call.parameters["size"]?.toLong() ?: 10
+
+            try {
+                val products = productService.getPagination(page, size)
+                call.respond(HttpStatusCode.OK, Json.encodeToString(products))
+                return@get
+            } catch (e: IllegalArgumentException) {
+                call.respond(HttpStatusCode.BadRequest)
+                return@get
+            }
+        }
+
         post("/add") {
             val multipart = call.receiveMultipart()
             try {

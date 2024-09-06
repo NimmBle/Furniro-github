@@ -34,6 +34,20 @@ class ProductServiceImpl(
             product.colors.addAll(productColorService.getByProductId(product.id))
         }
 
+    override fun getPagination(page: Int, size: Long): List<ProductDTO> =
+        productRepository
+            .getPagination(page, size)
+            .map { it.toDTO() }
+            .onEach { product ->
+
+                if (product.id == null)
+                    throw IllegalStateException("Product ID cannot be null")
+
+                product.photos.addAll(productPhotoService.getByProductId(product.id))
+                product.sizes.addAll(productSizeService.getByProductId(product.id))
+                product.colors.addAll(productColorService.getByProductId(product.id))
+            }
+
     override suspend fun addProduct(multipart: MultiPartData) {
 
         val (first, second) = uploadImages(multipart)
