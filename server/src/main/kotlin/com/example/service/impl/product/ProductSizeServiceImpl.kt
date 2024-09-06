@@ -1,7 +1,7 @@
-package com.example.service.impl
+package com.example.service.impl.product
 
-import com.example.repository.ProductSizeRepository
-import com.example.service.ProductSizeService
+import com.example.repository.product.ProductSizeRepository
+import com.example.service.product.ProductSizeService
 import java.util.*
 
 class ProductSizeServiceImpl(private val productSizeRepository: ProductSizeRepository = ProductSizeRepository()) :

@@ -6,7 +6,6 @@ import com.example.repository.CategoryRepository
 import com.example.service.AzureBlobService
 import com.example.service.CategoryService
 import io.ktor.http.content.*
-import java.time.LocalDate
 
 class CategoryServiceImpl(
     private val categoryRepository: CategoryRepository = CategoryRepository(),
@@ -15,21 +14,18 @@ class CategoryServiceImpl(
     override fun getAllCategories(): List<CategoryDTO> =
         categoryRepository.getAll().map { it.toDto() }
 
+    override fun getByName(name: String): CategoryDTO =
+        categoryRepository.getCategoryByName(name)?.toDto()
+            ?: throw IllegalArgumentException("Category with name $name does not exist")
+
     override suspend fun createCategory(multipart: MultiPartData) {
 
         val (name, imageUrl) = uploadImage(multipart)
 
-        val categoryDTO = CategoryDTO(null, name, imageUrl);
+        val category = CategoryDTO(null, name, imageUrl);
 
-        if (categoryRepository.getCategoryByName(categoryDTO.name) != null) {
-            throw IllegalArgumentException("Category with name ${categoryDTO.name} already exists")
-        }
-
-        val category = Category.new {
-            this.name = categoryDTO.name
-            coverPhotoUrl = categoryDTO.coverPhotoUrl
-            creationDate = LocalDate.now()
-            lastUpdatedDate = LocalDate.now()
+        if (categoryRepository.getCategoryByName(category.name) != null) {
+            throw IllegalArgumentException("Category with name ${category.name} already exists")
         }
 
         categoryRepository.addCategory(category)
@@ -42,12 +38,8 @@ class CategoryServiceImpl(
 
         val (newName, imageUrl) = uploadImage(multipart)
 
-        val updatedCategory = Category.new {
-            name = newName
-            coverPhotoUrl = imageUrl
-            creationDate = LocalDate.now()
-            lastUpdatedDate = LocalDate.now()
-        }
+        val updatedCategory = CategoryDTO(null, newName, imageUrl)
+
         categoryRepository.editCategory(oldName, updatedCategory)
     }
 
@@ -55,12 +47,8 @@ class CategoryServiceImpl(
         val categoryDTO = categoryRepository.getCategoryByName(oldName)
             ?: throw IllegalArgumentException("Category with name $oldName does not exist")
 
-        val updatedCategory = Category.new {
-            name = categoryDTO.name
-            coverPhotoUrl = categoryDTO.coverPhotoUrl
-            creationDate = LocalDate.now()
-            lastUpdatedDate = LocalDate.now()
-        }
+
+        val updatedCategory = CategoryDTO(categoryDTO.id.value, newName, categoryDTO.coverPhotoUrl)
         categoryRepository.editCategory(oldName, updatedCategory)
     }
 

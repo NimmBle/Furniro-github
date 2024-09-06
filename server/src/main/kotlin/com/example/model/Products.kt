@@ -17,6 +17,7 @@ object Products : BaseTable("products") {
     val stock = uinteger("stock")
     val markAsNew = bool("mark_as_new").nullable()
     val coverPhotoUrl = varchar("cover_photo_url", 512)
+    val categoryId = reference("category_id", Categories.id)
 }
 
 class Product(id: EntityID<UUID>) : UUIDEntity(id) {
@@ -32,6 +33,7 @@ class Product(id: EntityID<UUID>) : UUIDEntity(id) {
     var coverPhotoUrl by Products.coverPhotoUrl
     var creationDate by Products.creationDate
     var lastUpdatedDate by Products.lastUpdatedDate
+    var category by Category referencedOn Products.categoryId
 }
 
 object ProductPhotos : BaseTable("product_photos") {
@@ -44,6 +46,8 @@ class ProductPhoto(id: EntityID<UUID>) : UUIDEntity(id) {
 
     var productId by ProductPhotos.productId
     var imageUrl by ProductPhotos.photoUrl
+    var creationDate by ProductPhotos.creationDate
+    var lastUpdatedDate by ProductPhotos.lastUpdatedDate
 }
 
 enum class ProductSizeEnum {
@@ -60,9 +64,11 @@ class ProductSize(id: EntityID<UUID>) : UUIDEntity(id) {
 
     var productId by ProductSizes.productId
     var size by ProductSizes.size
+    var creationDate by ProductSizes.creationDate
+    var lastUpdatedDate by ProductSizes.lastUpdatedDate
 }
 
-object ProductColors : BaseTable("colors") {
+object ProductColors : BaseTable("product_colors") {
     val productId = reference("product_id", Products.id)
     val name = varchar("name", 256).uniqueIndex()
 }
@@ -72,11 +78,14 @@ class ProductColor(id: EntityID<UUID>) : UUIDEntity(id) {
 
     var productId by ProductColors.productId
     var name by ProductColors.name
+    var creationDate by ProductColors.creationDate
+    var lastUpdatedDate by ProductColors.lastUpdatedDate
 }
 
 @Serializable
 data class ProductDTO(
     @Contextual val id: UUID? = null,
+    @Contextual val categoryId: UUID? = null,
     val name: String,
     val shortDescription: String,
     val fullDescription: String,
@@ -88,6 +97,27 @@ data class ProductDTO(
     val photos: MutableList<String>,
     val sizes: MutableList<String>,
     val colors: MutableList<String>
+)
+
+@Serializable
+data class ProductColorDTO(
+    @Contextual val id: UUID? = null,
+    @Contextual val productId: UUID,
+    val name: String
+)
+
+@Serializable
+data class ProductSizeDTO(
+    @Contextual val id: UUID? = null,
+    @Contextual val productId: UUID,
+    val size: String
+)
+
+@Serializable
+data class ProductPhotoDTO(
+    @Contextual val id: UUID? = null,
+    @Contextual val productId: UUID,
+    val imageUrl: String
 )
 
 fun ResultRow.toProduct() = Product(
@@ -103,10 +133,12 @@ fun ResultRow.toProduct() = Product(
     coverPhotoUrl = this@toProduct[Products.coverPhotoUrl]
     creationDate = this@toProduct[Products.creationDate]
     lastUpdatedDate = this@toProduct[Products.lastUpdatedDate]
+    category = Category.findById(this@toProduct[Products.categoryId]) ?: throw IllegalArgumentException("Category not found")
 }
 
 fun ResultRow.toProductDTO() = ProductDTO(
     id = this[Products.id].value,
+    categoryId = this[Products.categoryId].value,
     name = this[Products.name],
     shortDescription = this[Products.shortDescription],
     fullDescription = this[Products.fullDescription],

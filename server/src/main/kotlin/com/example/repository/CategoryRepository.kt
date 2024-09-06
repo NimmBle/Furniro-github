@@ -2,10 +2,12 @@ package com.example.repository
 
 import com.example.model.Categories
 import com.example.model.Category
+import com.example.model.CategoryDTO
 import com.example.model.toCategory
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.time.LocalDate
 
 class CategoryRepository {
 
@@ -14,20 +16,20 @@ class CategoryRepository {
         return@transaction categories
     }
 
-    fun addCategory(category: Category) = transaction {
+    fun addCategory(category: CategoryDTO) = transaction {
         Categories.insert {
             it[name] = category.name
             it[coverPhotoUrl] = category.coverPhotoUrl
-            it[creationDate] = category.creationDate
-            it[lastUpdatedDate] = category.lastUpdatedDate
+            it[creationDate] = LocalDate.now()
+            it[lastUpdatedDate] = LocalDate.now()
         }
     }
 
-    fun editCategory(oldName: String, category: Category) = transaction {
+    fun editCategory(oldName: String, category: CategoryDTO) = transaction {
         Categories.update(where = { Categories.name eq oldName }) {
             it[name] = category.name
             it[coverPhotoUrl] = category.coverPhotoUrl
-            it[lastUpdatedDate] = category.lastUpdatedDate
+            it[lastUpdatedDate] = LocalDate.now()
         }
     }
 
@@ -36,6 +38,6 @@ class CategoryRepository {
     }
 
     fun getCategoryByName(name: String): Category? = transaction {
-        Categories.selectAll().where { Categories.name eq name }.map { it.toCategory() }.firstOrNull()
+        Category.find { Categories.name eq name }.firstOrNull()
     }
 }

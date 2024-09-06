@@ -1,14 +1,16 @@
-package com.example.repository
+package com.example.repository.product
 
 import com.example.model.ProductColor
+import com.example.model.ProductColorDTO
 import com.example.model.ProductColors
 import com.example.model.toProductColor
+import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.time.LocalDate
 import java.util.*
 
 class ProductColorRepository {
@@ -17,15 +19,17 @@ class ProductColorRepository {
         ProductColors.selectAll().toList().map { it.toProductColor() }
     }
 
-    fun addProductColor(productColor: ProductColor) = transaction {
-        ProductColors.insert {
-            it[productId] = productColor.productId
-            it[name] = productColor.name
+    fun addProductColor(productColor: ProductColorDTO) = transaction {
+        ProductColor.new {
+            productId = EntityID(productColor.productId, ProductColors)
+            name = productColor.name
+            creationDate = LocalDate.now()
+            lastUpdatedDate = LocalDate.now()
         }
     }
 
     fun getByProductId(productId: UUID): List<ProductColor> = transaction {
-        ProductColors.selectAll().where { ProductColors.productId eq productId }.map { it.toProductColor() }
+        ProductColor.find { ProductColors.productId eq productId }.toList()
     }
 
     fun deleteProductColor(productId: UUID, color: String) = transaction {

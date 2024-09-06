@@ -1,4 +1,4 @@
-package com.example.service
+package com.example.service.product
 
 import com.example.model.ProductDTO
 import io.ktor.http.content.*

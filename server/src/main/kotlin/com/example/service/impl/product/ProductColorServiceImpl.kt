@@ -1,19 +1,18 @@
-package com.example.service
+package com.example.service.impl.product
 
-import com.example.model.ProductColor
-import com.example.model.ProductColors
-import com.example.repository.ProductColorRepository
-import org.jetbrains.exposed.dao.id.EntityID
+import com.example.model.ProductColorDTO
+import com.example.repository.product.ProductColorRepository
+import com.example.service.product.ProductColorService
 import java.util.*
 
 class ProductColorServiceImpl(private val productColorRepository: ProductColorRepository = ProductColorRepository()) :
     ProductColorService {
     override fun addProductColor(productId: UUID, color: String) {
         productColorRepository.addProductColor(
-            ProductColor.new {
-                this.productId = EntityID(productId, ProductColors)
-                this.name = color
-            })
+            ProductColorDTO(
+                productId = productId,
+                name = color
+            ))
     }
 
     override fun getByProductId(productId: UUID): List<String> =

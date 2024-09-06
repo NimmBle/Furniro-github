@@ -1,9 +1,14 @@
-package com.example.service.impl
+package com.example.service.impl.product
 
+import com.example.model.Category
 import com.example.model.Product
 import com.example.model.ProductDTO
-import com.example.repository.ProductRepository
+import com.example.repository.product.ProductRepository
 import com.example.service.*
+import com.example.service.product.ProductColorService
+import com.example.service.product.ProductPhotoService
+import com.example.service.product.ProductService
+import com.example.service.product.ProductSizeService
 import io.ktor.http.content.*
 
 class ProductServiceImpl(
@@ -11,7 +16,8 @@ class ProductServiceImpl(
     private val productPhotoService: ProductPhotoService = ProductPhotoServiceImpl(),
     private val productSizeService: ProductSizeService = ProductSizeServiceImpl(),
     private val productColorService: ProductColorService = ProductColorServiceImpl(),
-    private val azureBlobService: AzureBlobService
+    private val azureBlobService: AzureBlobService,
+    private val categoryService: CategoryService,
 ) : ProductService {
     override fun getAll(): List<ProductDTO> = productRepository
         .getAll()
@@ -34,14 +40,17 @@ class ProductServiceImpl(
 
         productRepository.addProduct(product)
 
+        val productId =
+            (productRepository.getByProductName(product.name) ?: throw NullPointerException("Product is null")).id.value
+
         colors.forEach {
-            productColorService.addProductColor(product.id.value, it)
+            productColorService.addProductColor(productId, it)
         }
         sizes.forEach {
-            productSizeService.addProductSize(product.id.value, it)
+            productSizeService.addProductSize(productId, it)
         }
         imageUrls.forEach {
-            productPhotoService.addProductPhoto(product.id.value, it)
+            productPhotoService.addProductPhoto(productId, it)
         }
     }
 
@@ -53,38 +62,41 @@ class ProductServiceImpl(
         val (product, imageUrls) = first
         val (colors, sizes) = second
 
+        val productId = existingProduct.id.value
+
         colors.forEach {
-            val colorsCurr = productColorService.getByProductId(product.id.value)
+            val colorsCurr = productColorService.getByProductId(productId)
             if (!colorsCurr.contains(it)) {
-                productColorService.addProductColor(product.id.value, it)
+                productColorService.addProductColor(productId, it)
             }
 
             colorsCurr.forEach { curr ->
                 if (!colors.contains(curr)) {
-                    productColorService.deleteProductColor(product.id.value, curr)
+                    productColorService.deleteProductColor(productId, curr)
                 }
             }
-            productColorService.addProductColor(product.id.value, it)
+            productColorService.addProductColor(productId, it)
         }
         sizes.forEach {
-            val sizesCurr = productSizeService.getByProductId(product.id.value)
+            val sizesCurr = productSizeService.getByProductId(productId)
             if (!sizesCurr.contains(it)) {
-                productSizeService.addProductSize(product.id.value, it)
+                productSizeService.addProductSize(productId, it)
             }
 
             sizesCurr.forEach { curr ->
                 if (!sizes.contains(curr)) {
-                    productSizeService.deleteProductSize(product.id.value, curr)
+                    productSizeService.deleteProductSize(productId, curr)
                 }
             }
-            productSizeService.addProductSize(product.id.value, it)
+            productSizeService.addProductSize(productId, it)
         }
         imageUrls.forEach {
-            productPhotoService.addProductPhoto(product.id.value, it)
+            productPhotoService.addProductPhoto(productId, it)
         }
 
         existingProduct.apply {
             name = product.name
+            category = Category.findById(category.id) ?: throw IllegalArgumentException("Category not found")
             shortDescription = product.shortDescription
             fullDescription = product.fullDescription
             price = product.price
@@ -111,12 +123,13 @@ class ProductServiceImpl(
         stock = stock,
         markAsNew = markAsNew,
         coverPhotoUrl = coverPhotoUrl,
+        categoryId = category.id.value,
         photos = mutableListOf(),
         sizes = mutableListOf(),
         colors = mutableListOf()
     )
 
-    private suspend fun uploadImages(multipart: MultiPartData): Pair<Pair<Product, MutableList<String>>, Pair<List<String>, List<String>>> {
+    private suspend fun uploadImages(multipart: MultiPartData): Pair<Pair<ProductDTO, MutableList<String>>, Pair<List<String>, List<String>>> {
 
         var name: String? = null
         var shortDescription: String? = null
@@ -129,6 +142,8 @@ class ProductServiceImpl(
         val colors: MutableList<String> = mutableListOf()
         val sizes: MutableList<String> = mutableListOf()
 
+        var categoryName: String? = null
+
         val images: MutableList<PartData.FileItem> = mutableListOf()
         var coverImage: PartData.FileItem? = null
 
@@ -137,6 +152,7 @@ class ProductServiceImpl(
                 is PartData.FormItem -> {
                     when (part.name) {
                         "name" -> name = part.value
+                        "category" -> categoryName = part.value
                         "shortDescription" -> shortDescription = part.value
                         "fullDescription" -> fullDescription = part.value
                         "price" -> price = part.value.toDouble()
@@ -147,11 +163,13 @@ class ProductServiceImpl(
                         "sizes" -> sizes.addAll(part.value.split(", "))
                     }
                 }
+
                 is PartData.FileItem -> {
                     if (part.name == "coverImage") {
                         coverImage = part
                     } else images.add(part)
                 }
+
                 else -> Unit
             }
         }
@@ -164,18 +182,28 @@ class ProductServiceImpl(
             throw IllegalArgumentException("Name is null")
         }
 
+        if (categoryName == null) {
+            throw IllegalArgumentException("Category is null")
+        }
+
         val coverPhotoUrl = azureBlobService.uploadImage(coverImage!!)
 
-        val product = Product.new {
-            this.name = name!!
-            this.shortDescription = shortDescription!!
-            this.fullDescription = fullDescription!!
-            this.price = price!!
-            this.discount = discount ?: 0.0
-            this.stock = stock!!
-            this.markAsNew = markAsNew ?: false
-            this.coverPhotoUrl = coverPhotoUrl
-        }
+        val categoryId = categoryService.getByName(categoryName!!).id
+
+        val product = ProductDTO(
+            name = name!!,
+            shortDescription = shortDescription!!,
+            fullDescription = fullDescription!!,
+            price = price!!,
+            discount = discount ?: 0.0,
+            stock = stock!!,
+            markAsNew = markAsNew ?: false,
+            coverPhotoUrl = coverPhotoUrl,
+            categoryId = categoryId,
+            photos = mutableListOf(),
+            sizes = mutableListOf(),
+            colors = mutableListOf()
+        )
 
         val imageUrls: MutableList<String> = mutableListOf()
 

@@ -1,4 +1,4 @@
-package com.example.repository
+package com.example.repository.product
 
 import com.example.model.ProductSize
 import com.example.model.ProductSizeEnum
@@ -10,6 +10,7 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.time.LocalDate
 import java.util.*
 
 class ProductSizeRepository {
@@ -22,6 +23,8 @@ class ProductSizeRepository {
         ProductSizes.insert {
             it[this.productId] = productId
             it[this.size] = ProductSizeEnum.valueOf(size)
+            it[this.creationDate] = LocalDate.now()
+            it[this.lastUpdatedDate] = LocalDate.now()
         }
     }
 

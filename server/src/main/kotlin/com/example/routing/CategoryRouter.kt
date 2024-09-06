@@ -18,17 +18,21 @@ fun Route.categories(azureBlobService: AzureBlobService) {
             try {
                 val categories = categoryService.getAllCategories()
                 call.respond(HttpStatusCode.OK, categories)
+                return@get
             } catch (e: IllegalArgumentException) {
                 call.respond(HttpStatusCode.BadRequest)
+                return@get
             }
         }
 
         post("/add") {
             val multipart = call.receiveMultipart()
             try {
-                call.respond(categoryService.createCategory(multipart))
+                call.respond(HttpStatusCode.OK, categoryService.createCategory(multipart))
+                return@post
             } catch (e: IllegalArgumentException) {
                 call.respond(HttpStatusCode.BadRequest)
+                return@post
             }
         }
 
@@ -42,18 +46,22 @@ fun Route.categories(azureBlobService: AzureBlobService) {
             }
 
             try {
-                call.respond(categoryService.updateCategory(oldName, multipart))
+                call.respond(HttpStatusCode.OK, categoryService.updateCategory(oldName, multipart))
+                return@patch
             } catch (e: IllegalArgumentException) {
                 call.respond(HttpStatusCode.BadRequest)
+                return@patch
             }
         }
 
         delete("/{name}") {
             val name: String? = call.parameters["name"]
             if (name != null) {
-                call.respond(categoryService.deleteCategory(name))
+                call.respond(HttpStatusCode.OK, categoryService.deleteCategory(name))
+                return@delete
             } else {
                 call.respond(HttpStatusCode.NotFound)
+                return@delete
             }
         }
     }

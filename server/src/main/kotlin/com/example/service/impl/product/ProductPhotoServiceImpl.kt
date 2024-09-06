@@ -1,7 +1,7 @@
-package com.example.service.impl
+package com.example.service.impl.product
 
-import com.example.repository.ProductPhotoRepository
-import com.example.service.ProductPhotoService
+import com.example.repository.product.ProductPhotoRepository
+import com.example.service.product.ProductPhotoService
 import java.util.*
 
 class ProductPhotoServiceImpl(private val productPhotoRepository: ProductPhotoRepository = ProductPhotoRepository()) :

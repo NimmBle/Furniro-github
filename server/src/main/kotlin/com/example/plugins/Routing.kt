@@ -1,6 +1,7 @@
 package com.example.plugins
 
 import com.example.routing.categories
+import com.example.routing.products
 import com.example.service.impl.AzureBlobServiceImpl
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
@@ -15,6 +16,7 @@ fun Application.configureRouting() {
 
     routing {
         categories(azureBlobService)
+        products(azureBlobService)
         staticResources("/static", "static")
     }
 }
