@@ -40,7 +40,7 @@ export class HomeComponent {
   ngOnInit(): void {
     this.productService.getProducts("0", "8").subscribe(
       res => {
-        this.products = res.data;
+        this.products = res;
       }
     );
   }

@@ -22,7 +22,7 @@ export class ShopComponent {
   ngOnInit(): void {
     this.productService.getProducts("0", this.productsPerPage).subscribe(
       res => {
-        this.products = res.data;
+        this.products = res;
       }
     )
     this.numberOfPages = Math.ceil(this.products.length / Number(this.productsPerPage));
@@ -33,7 +33,7 @@ export class ShopComponent {
     this.productsPerPage = event.target.value;
     this.productService.getProducts("0", this.productsPerPage).subscribe(
       res => {
-        this.products = res.data;
+        this.products = res;
       }
     )
     this.numberOfPages = Math.ceil(this.products.length / Number(this.productsPerPage));
@@ -48,7 +48,7 @@ export class ShopComponent {
     this.currentProductPageIndex = index;
     this.productService.getProducts(String(Number(this.productsPerPage) * this.currentProductPageIndex), this.productsPerPage).subscribe(
       res => {
-        this.products = res.data;
+        this.products = res;
       }
     )
   }
