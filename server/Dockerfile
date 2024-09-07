@@ -19,6 +19,12 @@ RUN gradle buildFatJar --no-daemon
 
 # Stage 3: Create the Runtime Image
 FROM amazoncorretto:22 AS runtime
+
+ENV AZURE_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=slazystorage;AccountKey=43PELRdsfmJjRN4nj6t3xZXZt7CUOr1IpsStMmdpBRhV6zeOh9cqskKdvMcBOWlkRHwLYP8AQQl5+AStYVpyzA==;EndpointSuffix=core.windows.net"
+ENV AZURE_CONTAINER_NAME = "furniro-images"
+ENV DB_USER = "db_root"
+ENV DB_PASS = "furniro_PASS123"
+
 EXPOSE 8080:8080
 RUN mkdir /app
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/server-container.jar
