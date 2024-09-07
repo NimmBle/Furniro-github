@@ -71,7 +71,7 @@ class ProductSize(id: EntityID<UUID>) : UUIDEntity(id) {
 
 object ProductColors : BaseTable("product_colors") {
     val productId = reference("product_id", Products.id)
-    val name = varchar("name", 256).uniqueIndex()
+    val name = varchar("name", 256)
 }
 
 class ProductColor(id: EntityID<UUID>) : UUIDEntity(id) {

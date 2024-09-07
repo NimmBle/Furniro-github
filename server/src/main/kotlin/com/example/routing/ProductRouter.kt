@@ -31,7 +31,22 @@ fun Route.products(azureBlobService: AzureBlobService) {
             }
         }
 
-        get("/{page}/{size}") {
+        get("/{id}") {
+            try {
+                val id = call.parameters["id"]?.let { java.util.UUID.fromString(it) }
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@get
+                }
+                call.respond(HttpStatusCode.OK, Json.encodeToString(productService.getById(id)))
+                return@get
+            } catch (e: IllegalArgumentException) {
+                call.respond(HttpStatusCode.BadRequest)
+                return@get
+            }
+        }
+
+        get("?page={page}&size={size}") {
             val page: Int = call.parameters["page"]?.toInt() ?: 0
             val size: Long = call.parameters["size"]?.toLong() ?: 10
 

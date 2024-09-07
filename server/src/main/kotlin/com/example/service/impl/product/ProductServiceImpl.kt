@@ -48,6 +48,9 @@ class ProductServiceImpl(
                 product.colors.addAll(productColorService.getByProductId(product.id))
             }
 
+    override fun getById(id: UUID): ProductDTO =
+        productRepository.getById(id)?.toDTO() ?: throw IllegalArgumentException("Product not found")
+
     override suspend fun addProduct(multipart: MultiPartData) {
 
         val (first, second) = uploadImages(multipart)

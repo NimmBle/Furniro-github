@@ -7,6 +7,7 @@ import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 import java.time.LocalDate
+import java.util.UUID
 
 class ProductRepository {
 
@@ -18,8 +19,12 @@ class ProductRepository {
         Product.find { Products.name eq name }.firstOrNull()
     }
 
+    fun getById(id: UUID): Product? = transaction {
+        Product.findById(id)
+    }
+
     fun getPagination(count: Int, page: Long) = transaction {
-        Product.all().limit(count, page * count).toList()
+        Product.all().limit(count, page - 1 * count).toList()
     }
 
     fun addProduct(product: ProductDTO) = transaction {

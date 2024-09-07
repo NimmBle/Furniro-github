@@ -28,6 +28,7 @@ repositories {
 
 dependencies {
     implementation("io.ktor:ktor-server-core-jvm")
+    implementation("io.ktor:ktor-server-cors")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$kotlin_version")
     implementation("io.ktor:ktor-server-content-negotiation-jvm")
