@@ -1,0 +1,202 @@
+<section class="hero">
+  <div class="hero-text">
+    <span>New Arrival</span>
+    <h1 class="title">Discover Our New Collection</h1>
+    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis.</p>
+    <button class="primary-button hero-button">
+      <a class="" routerLink="/shop">Buy Now</a>
+    </button>
+    
+  </div>
+</section>
+<section class="container categories">
+  <div class="title-wrapper">
+      <h2 class="title"> Browse The Range</h2>
+      <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+  </div>
+  <div class="card-wrapper">
+    <a href="#">
+      <div class="card">
+          <img src="../../../assets/dining-image.svg" alt="dining img" class="image-card">
+          <h3>Dining</h3>
+      </div>
+    </a>
+    <a href="#">
+      <div class="card">
+          <img src="../../../assets/living-image.svg" alt="living img" class="image-card">
+          <h3>Living</h3>
+      </div>
+    </a>
+    <a href="#">
+      <div class="card">
+          <img src="../../../assets/bedroom-image.svg" alt="bedroom img" class="image-card">
+          <h3>Bedroom</h3>
+      </div>
+    </a>
+  </div>
+</section>
+<section class="products">
+  <div class="title-wrapper">
+      <h2 class="product-section-title">Our Products</h2>
+  </div>
+  <div class="product-cards-wrapped container">
+      <div *ngFor="let product of products" class="product-cards">
+          <div class="overlay">
+          </div>
+          <div class="hover-items">
+              <button class="add-to-cart-button">Add to cart</button>
+              <div class="hover-options">
+                  <div class="hover-options-icon-text">
+                    <button>
+                      <img src="assets/share-icon.svg" alt="share-icon">
+                      <p>Share</p>
+                    </button>
+                  </div>
+                  <div class="hover-options-icon-text">
+                    <button>
+                      <img src="assets/compare-icon.svg" alt="compare-icon">
+                      <p>Compare</p>
+                    </button>
+                  </div>
+                  <div class="hover-options-icon-text">
+                    <button>
+                      <img src="assets/like-icon.svg" alt="like-icon">
+                      <p>Like</p>
+                    </button>
+                  </div>
+              </div>
+          </div>
+          <img src="assets/syltherine-img.svg" alt="syltherine-img" class="product-image-cards">
+          <div class="grey-area">
+              <h3 class="title">{{ product.name }}</h3>
+              <p class="description">{{ product.short_description }}</p>
+              <div class="price-wrapper">
+                  <span class="price">{{ product.price }}</span>
+                  <span class="discount">{{ product.price }}</span>
+              </div>
+          </div>  
+          <div *ngIf="product.discount > 0" class="product-card-circle discount ">
+            -{{ product.discount }}%
+          </div>
+          <div *ngIf="product.discount == 0" class="product-card-circle new">
+            New
+          </div>
+      </div>
+  </div>
+  <div class="button-wrapper">
+    <button class="show-more-button">Show More</button>
+  </div>
+</section>
+<section class="inspiration">
+  <div class="text">
+    <h2 class="title">50+ Beautiful rooms inspiration</h2>
+    <p class="description">Our designer already made a lot of beautiful prototipe of rooms that inspire you</p>
+    <button class="primary-button">
+      <a class="explore-button">Explore More</a>
+    </button>
+  </div>
+  <div class="carousel">
+    <div class="wrapper" #wrapper>
+      <div class="item-wrapper">
+        <img class="background-image" src="../../../assets/Inspiration-1.svg" alt="">
+        <div class="text-wrapper">
+          <div class="image-information">
+            <div class="upper-part">
+              <span>01</span>
+              <img src="../../../assets/line.svg" alt="">
+              <span>Bed Room</span>
+            </div>
+            <div class="inspiration-title">
+              <h3>Inner Peace</h3> 
+            </div>
+          </div>
+          <div class="arrow-wrapper">
+            <img src="../../../assets/arrow-right.svg" alt="->">
+          </div>
+        </div>
+        <div class="dots-wrapper">
+          <div *ngFor="let slide of slides; let i = index"
+               [class.active]="activeSlideIndex === i"
+               (click)="slidesToggle(i)"
+               class="dot-border active-border">
+            <div class="dot active-dot"
+                 [class.active]="activeSlideIndex ===i"></div>
+          </div>
+        </div>
+      </div>
+      <div class="item-wrapper">
+        <img src="../../../assets/Inspiration-2.svg" alt="">
+        <div class="image-information hidden">
+          <div class="upper-part">
+            <span>01</span>
+            <img src="../../../assets/line.svg" alt="">
+            <span>Bed Room</span>
+          </div>
+          <div class="inspiration-title">
+            Inner Peace
+          </div>
+        </div>
+      </div>
+      <div class="item-wrapper">
+        <img src="../../../assets/Inspiration-2.svg" alt="">
+        <div class="image-information hidden">
+          <div class="upper-part">
+            <span>01</span>
+            <img src="../../../assets/line.svg" alt="">
+            <span>Bed Room</span>
+          </div>
+          <div class="inspiration-title">
+            Inner Peace
+          </div>
+        </div>
+      </div>
+      <div class="item-wrapper">
+        <img src="../../../assets/Inspiration-2.svg" alt="">
+        <div class="image-information hidden">
+          <div class="upper-part">
+            <span>01</span>
+            <img src="../../../assets/line.svg" alt="">
+            <span>Bed Room</span>
+          </div>
+          <div class="inspiration-title">
+            Inner Peace
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="next-slide-arrow"
+         (click)="nextSlide()">
+      <img src="../../../assets/arrow-right-slide.svg" alt="">
+    </div>
+  </div>
+  
+</section>
+<section class="image-collage">
+  <div class="title-wrapper">
+    <span>Share your setup with</span>
+    <h2 class="title">#FuniroFurniture</h2>
+  </div>
+  <div class="collage-wrapper">
+    <div class="left">
+      <div class="upper">
+        <img src="../../../assets/image-collage/furniture1.svg" alt="">
+        <img src="../../../assets/image-collage/furniture3.svg" alt="">
+      </div>
+      <div class="bottom">
+        <img src="../../../assets/image-collage/furniture2.svg" alt="">
+        <img src="../../../assets/image-collage/furniture4.svg" alt="">
+      </div>
+    </div>
+    <img class="middle-image" src="../../../assets/image-collage/furniture5.svg" alt="">
+    <div class="right">
+      <div class="upper">
+        <img src="../../../assets/image-collage/furniture6.svg" alt="">
+        <img src="../../../assets/image-collage/furniture9.svg" alt="">
+      </div>
+      <div class="bottom">
+        <img src="../../../assets/image-collage/furniture7.svg" alt="">
+        <img src="../../../assets/image-collage/furniture8.svg" alt="">
+      </div>
+    </div>
+  </div>
+</section>

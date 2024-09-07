@@ -1,0 +1,90 @@
+<section class="hero">
+  <div class="title-wrapper">
+      <h2 class="title">{{ pageTitle }}</h2>
+      <div class="page-path">
+        <a class="toHome" routerLink="/main">Home</a>
+        <img src="../../../../assets/pathArrow.svg" alt="">
+        <a class="currentPage">{{ pageTitle }}</a>
+      </div>
+  </div>
+</section>
+<section class="filters">
+  <div class="container content-wrapper">
+    <div class="left">
+      <div class="filter-wrapper">
+        <img src="assets/shopPage/filter-icon.svg" alt="">
+        <span>Filter</span>
+      </div>
+      <img src="assets/shopPage/grid-icon.svg" alt="">
+      <img src="assets/shopPage/detailed-icon.svg" alt="">
+      <div class="info">
+        <span>Showing 1-16 of 32 results</span>
+      </div>
+    </div>
+    <div class="right">
+      <div class="show">
+        <label for="numberOfProductsLabel">Show</label>
+        <input type="number" id="numberOfProducts" [value]="productsPerPage" #productPerPage
+        (input)="updateShowPerPage($event)"> 
+      </div>
+      <div class="sortBy">
+        <label for="sortByLabel">Sort by</label>
+        <input type="text" id="sortByLabel" placeholder="Default"> 
+      </div>
+    </div>
+  </div>
+</section>
+<section class="allProducts">
+  <div class="container">
+    <div *ngFor="let product of products" class="product-cards" (click)="redirectToProductDetailPage(product.id)">
+      <div class="overlay">
+      </div>
+      <div class="hover-items">
+          <button class="add-to-cart-button">Add to cart</button>
+          <div class="hover-options">
+              <div class="hover-options-icon-text">
+                <button>
+                  <img src="assets/share-icon.svg" alt="share-icon">
+                  <p>Share</p>
+                </button>
+              </div>
+              <div class="hover-options-icon-text">
+                <button>
+                  <img src="assets/compare-icon.svg" alt="compare-icon">
+                  <p>Compare</p>
+                </button>
+              </div>
+              <div class="hover-options-icon-text">
+                <button>
+                  <img src="assets/like-icon.svg" alt="like-icon">
+                  <p>Like</p>
+                </button>
+              </div>
+          </div>
+      </div>
+      <img src="assets/syltherine-img.svg" alt="syltherine-img" class="product-image-cards">
+      <div class="grey-area">
+          <h3 class="title">{{ product.name }}</h3>
+          <p class="description">{{ product.short_description }}</p>
+          <div class="price-wrapper">
+              <span class="price">{{ product.price }}</span>
+              <span class="discount">{{ product.price }}</span>
+          </div>
+      </div>  
+      <div *ngIf="product.discount > 0" class="product-card-circle discount ">
+        -{{ product.discount }}%
+      </div>
+      <div *ngIf="product.discount == 0" class="product-card-circle new">
+        New
+      </div>
+    </div>
+  </div>
+  <div class="pageButtons-wrapper">
+    <div *ngFor="let pageNumber of numberOfPagesArray; let i = index"
+         [class.active]="currentProductPageIndex === i"
+         (click)="nextPage(i)"
+         class="pageButton">
+      <span>{{ i }}</span>
+    </div>
+  </div>
+</section>

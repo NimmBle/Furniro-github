@@ -1,0 +1,167 @@
+<section class="pagePath">
+  <div class="container wrapper"> 
+    <div class="path">
+      <a routerLink="/main">
+        <span>Home</span>
+      </a>
+      <img src="assets/pathArrow.svg" alt="">
+    </div>
+    <div class="path">
+      <a routerLink="/main/shop">
+        <span>Shop</span>
+      </a>
+      <img src="assets/pathArrow.svg" alt="">
+    </div>
+    <div class="title-holder">
+      <span>{{ produtTitle }}</span>
+    </div>
+  </div>
+</section>
+<section class="product">
+  <div class="container wrapper">
+    <div class="product-images">
+      <div class="other-images">
+          <picture>
+            <source srcset="assets/productImages/AdditionalProductImage.svg" media="(min-width: 600px)">
+            <img src="" alt="">
+          </picture>
+          <picture>
+            <source srcset="assets/productImages/AdditionalProductImage.svg" media="(min-width: 600px)">
+            <img src="" alt="">
+          </picture>
+          <picture>
+            <source srcset="assets/productImages/AdditionalProductImage.svg" media="(min-width: 600px)">
+            <img src="" alt="">
+          </picture>
+          <picture>
+            <source srcset="assets/productImages/AdditionalProductImage.svg" media="(min-width: 600px)">
+            <img src="" alt="">
+          </picture>
+      </div>
+      <picture>
+        <source srcset="assets/productImages/ProductImage.svg" media="(min-width: 600px)">
+        <img src="" alt="">
+      </picture>
+    </div>
+    <div class="product-info">
+      <h2 class="product-name">{{ produtTitle }}</h2>
+      <span class="product-price">Rs. {{ price }}</span>
+      <div class="reviews-holder">
+        <div class="stars">
+          <picture>
+            <source srcset="assets/productImages/star.svg">
+            <img src="" alt="">
+          </picture>
+          <picture>
+            <source srcset="assets/productImages/star.svg">
+            <img src="" alt="">
+          </picture>
+          <picture>
+            <source srcset="assets/productImages/star.svg">
+            <img src="" alt="">
+          </picture>
+          <picture>
+            <source srcset="assets/productImages/star.svg">
+            <img src="" alt="">
+          </picture>
+          <picture>
+            <source srcset="assets/productImages/star.svg">
+            <img src="" alt="">
+          </picture>
+        </div>
+        <div class="numberOfReviews">
+          <span>5 Customer Review</span>
+        </div>
+      </div>
+      <div class="description-holder">
+        <p class="description">Setting the bar as one of the loudest speakers in its class, the Kilburn is a compact, stout-hearted hero with a well-balanced audio which boasts a clear midrange and extended highs for a sound.</p>
+      </div>
+      <div class="sizes-holder">
+        <span class="sizes-title">Size</span>
+        <div class="sizes">
+          <div *ngFor="let size of sizes; let i = index"
+               class="size-button"
+               [class.active]="currentPrimaryImage === i"
+               (click)="selectSize(i)">
+               <span>{{ size }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="colors-holder">
+        <span class="colors-title">Colors</span>
+        <div class="colors">
+          <div *ngFor="let color of colors; let i = index"
+               class="color"
+               [class.active]="currentColor === i"
+               (click)="selectColor(i)"
+               [ngStyle]="{'background-color': color}"></div>
+        </div>
+      </div>
+      <div class="buttons">
+        <div class="quantity-holder">
+          <button class="button-quantity button-decrease"
+                  (click)="decreaseQuantity()">-
+          </button>
+          <input class="quantity-input" type="text" [value]="quantity">
+          <button class="button-quantity button-increase"
+                  (click)="increaseQuantity()">+
+          </button>
+        </div>
+        <button class="button addToCard">
+          Add To Cart
+        </button>
+        <button class="button compare">
+          + Compare
+        </button>
+      </div>
+      <div class="additional-information">
+        <div class="column">
+          <span>SKU</span>
+          <span>Category</span>
+          <span>Tags</span>
+          <span>Share</span>
+        </div>
+        <div class="column">
+          <span>:</span>
+          <span>:</span>
+          <span>:</span>
+          <span>:</span>
+        </div>
+        <div class="column">
+          <span>SS001</span>
+          <span>Sofas</span>
+          <span>Sofa, Chair, Home, Shop</span>
+          <div class="social-media-icons">
+            <img src="assets/productImages/facebook-icon.svg" alt="">
+            <img src="assets/productImages/linkedIn-icon.svg" alt="">
+            <img src="assets/productImages/Twitter-icon.svg" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</section>
+<section class="product-description">
+  <div class="container">
+    <div class="description-options">
+      <span>Description</span>
+      <span>Additional Information</span>
+      <span>Reviews [5]</span>
+    </div>
+    <div class="option-information">
+      <p>Embodying the raw, wayward spirit of rock ‘n’ roll, the Kilburn portable active stereo speaker takes the unmistakable look and sound of Marshall, unplugs the chords, and takes the show on the road.</p>
+      <p>Weighing in under 7 pounds, the Kilburn is a lightweight piece of vintage styled engineering. Setting the bar as one of the loudest speakers in its class, the Kilburn is a compact, stout-hearted hero with a well-balanced audio which boasts a clear midrange and extended highs for a sound that is both articulate and pronounced. The analogue knobs allow you to fine tune the controls to your personal preferences while the guitar-influenced leather strap enables easy and stylish travel.</p>
+    </div>
+    <div class="image-wrapper">
+      <picture>
+        <source srcset="assets/productImages/product-image.svg" media="(min-width: 600px)">
+        <img src="" alt="">
+      </picture>
+      <picture>
+        <source srcset="assets/productImages/product2-image.svg" media="(min-width: 600px)">
+        <img src="" alt="">
+      </picture>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,63 @@
+<header class="container header">
+  <div class="logo-icon">
+      <img src="../../../assets/logo-icon.svg" alt="logo">
+  </div>
+  <nav class="navbar">
+      <a routerLink="/main">Home</a>  
+      <a routerLink="/main/shop">Shop</a>
+      <a routerLink="/main/product">About</a>
+      <a href="#">Contact</a>
+  </nav>
+  <div class="icons-wrapper">
+    <a href="#">
+      <img src="../../../assets/profile-icon.svg" alt="profile icon">
+    </a>
+    <a href="#">
+      <img src="../../../assets/search-icon.svg" alt="search icon">
+    </a>
+    <a href="#">
+      <img src="../../../assets/heart-icon.svg" alt="heart icon">
+    </a>
+    <a >
+      <img (click)="toggleCart()"
+           src="../../../assets/shoppingcart-icon.svg"
+           alt="shopping cart">
+    </a>
+  </div>
+  <div *ngIf="isCartOpen" class="overlay"></div>
+  <div *ngIf="isCartOpen" class="cartWindow">
+    <div class="heading">
+      <span>Shopping Cart</span>
+      <img (click)="toggleCart()" src="assets/closeCartIcon.svg" alt="">
+    </div>
+    <div class="productsInCart">
+      <div class="product">
+        <img src="assets/shopping-cart-product-image.svg" alt="">
+        <div class="product-info">
+          <span class="name">Asgaard sofa</span>
+          <div class="quantity-wrapper">
+            <span class="quantity">1</span>
+            <span>X</span>
+            <span class="price">Rs. 250,000.00</span>
+          </div>
+
+        </div>
+        <div class="remove-icon-wrapper">
+          <img src="assets/shopping-cart-remove-icon.svg" alt="">
+        </div>
+      </div>
+    </div>
+    <div class="bottom">
+      <div class="subtotal-wrapper">
+        <span class="subtotal">Subtotal</span>
+        <span class="total-price">Rs. 520,000.00</span>
+      </div>
+      <div class="buttons-wrapper">
+        <button class="cart-button open-cart">Cart</button>
+        <button class="cart-button checkout">Checkout</button>
+        <button class="cart-button open-cart">Comparison</button>
+
+      </div>
+    </div>
+  </div>
+</header>
