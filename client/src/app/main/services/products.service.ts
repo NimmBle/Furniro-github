@@ -18,10 +18,10 @@ export class ProductsService {
     return this.httpClient.get<Product>(this.productsPath + '/' + id) 
   }
   
-  getProducts(skip: string, take: string): Observable<any> {
+  getProducts(page: string, size: string): Observable<Product[]> {
     let params = new HttpParams() 
-      .set('skip', skip)
-      .set('take', take);
-    return this.httpClient.get<any>(this.productsPath, { params });
+      .set('page', page)
+      .set('size', size);
+    return this.httpClient.get<Product[]>(this.productsPath, { params });
   }
 }
