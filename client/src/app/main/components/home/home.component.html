@@ -40,7 +40,8 @@
       <h2 class="product-section-title">Our Products</h2>
   </div>
   <div class="product-cards-wrapped container">
-      <div *ngFor="let product of products" class="product-cards">
+      <div *ngFor="let product of products" class="product-cards"
+           (click)="redirectToProductDetailPage(product.id)">
           <div class="overlay">
           </div>
           <div class="hover-items">
@@ -66,7 +67,7 @@
                   </div>
               </div>
           </div>
-          <img src="assets/syltherine-img.svg" alt="syltherine-img" class="product-image-cards">
+          <img src="{{ product.cover_photo }}" alt="syltherine-img" class="product-image-cards">
           <div class="grey-area">
               <h3 class="title">{{ product.name }}</h3>
               <p class="description">{{ product.short_description }}</p>

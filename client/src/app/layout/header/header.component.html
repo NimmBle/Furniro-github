@@ -30,19 +30,19 @@
       <span>Shopping Cart</span>
       <img (click)="toggleCart()" src="assets/closeCartIcon.svg" alt="">
     </div>
-    <div class="productsInCart">
+    <div class="productsInCart" *ngFor="let product of cartProducts; let i = index">
       <div class="product">
-        <img src="assets/shopping-cart-product-image.svg" alt="">
+        <img src="{{ product.cover_photo }}" alt="">
         <div class="product-info">
-          <span class="name">Asgaard sofa</span>
+          <span class="name">{{ product.name }}</span>
           <div class="quantity-wrapper">
             <span class="quantity">1</span>
             <span>X</span>
-            <span class="price">Rs. 250,000.00</span>
+            <span class="price">Rs. {{ product.price }}</span>
           </div>
 
         </div>
-        <div class="remove-icon-wrapper">
+        <div (click)="removeItemFromCart(i)" class="remove-icon-wrapper">
           <img src="assets/shopping-cart-remove-icon.svg" alt="">
         </div>
       </div>
@@ -52,11 +52,10 @@
         <span class="subtotal">Subtotal</span>
         <span class="total-price">Rs. 520,000.00</span>
       </div>
-      <div class="buttons-wrapper">
-        <button class="cart-button open-cart">Cart</button>
-        <button class="cart-button checkout">Checkout</button>
+      <div class="buttons-wrapper" >
+        <button routerLink="/main/cart" (click)="toggleCartMenu()" class="cart-button open-cart">Cart</button>
+        <button routerLink="/main/checkout" (click)="toggleCartMenu()" class="cart-button checkout">Checkout</button>
         <button class="cart-button open-cart">Comparison</button>
-
       </div>
     </div>
   </div>

@@ -1,13 +1,4 @@
-<section class="hero">
-  <div class="title-wrapper">
-      <h2 class="title">{{ pageTitle }}</h2>
-      <div class="page-path">
-        <a class="toHome" routerLink="/main">Home</a>
-        <img src="../../../../assets/pathArrow.svg" alt="">
-        <a class="currentPage">{{ pageTitle }}</a>
-      </div>
-  </div>
-</section>
+<app-pages-hero></app-pages-hero>
 <section class="filters">
   <div class="container content-wrapper">
     <div class="left">
@@ -62,7 +53,7 @@
               </div>
           </div>
       </div>
-      <img src="assets/syltherine-img.svg" alt="syltherine-img" class="product-image-cards">
+      <img src="{{ product.cover_photo }}" alt="syltherine-img" class="product-image-cards">
       <div class="grey-area">
           <h3 class="title">{{ product.name }}</h3>
           <p class="description">{{ product.short_description }}</p>
@@ -88,3 +79,4 @@
     </div>
   </div>
 </section>
+<app-qualities></app-qualities>

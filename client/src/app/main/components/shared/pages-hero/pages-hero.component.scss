@@ -1,0 +1,30 @@
+.hero {
+  background-image: url('../../../../../assets/shopPage/shopHero.svg');
+  background-size: cover;
+  width: 100%;
+
+  .title-wrapper {
+    padding-block: 120px 100px;
+    display: grid;
+    place-items: center;
+
+    .title {
+      font-size: 3rem;
+      font-weight: var(--fw-medium);
+    }
+    .page-path {
+      display: flex;
+      gap: 6px;
+
+      .toHome {
+        cursor: pointer;
+        color: var(--clr-black);
+        font-weight: var(--fw-medium);
+      }
+      .currentPage {
+        cursor: pointer;
+        color: var(--clr-black);
+      }
+    }
+  }
+}

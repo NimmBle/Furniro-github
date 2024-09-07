@@ -1,0 +1,48 @@
+.cart-page .charateristics {
+  display: flex;
+  flex-direction: row;
+  gap: 34px;
+  color: rgba(159, 159, 159, 1);
+  align-items: center;
+}
+.cart-page .legend {
+  width: 817px;
+  height: 55px;
+  background-color: rgba(249, 241, 231, 1);
+  font-family: Arial;
+  font-size: 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  align-items: center;
+  padding-left: 142px;
+}
+.cart-page .image {
+  width: 105px;
+  height: 108px;
+}
+.cart-page .subtotal {
+  color: black;
+}
+.cart-page .legend .price {
+  padding-left: 30px;
+}
+.cart-page .legend .quantity {
+  padding-left: 60px;
+}
+.cart-page .legend .subtotal {
+  padding-left: 30px;
+}
+input[type="number"],
+select {
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  border: 1px solid rgba(159, 159, 159, 1);
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+.cart-page .subtotal-price {
+  padding-left: 50px;
+  color: black;
+}

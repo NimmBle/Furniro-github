@@ -1,0 +1,33 @@
+
+.quality-wrapped {
+  background-color: rgba(250, 243, 234, 1);
+  display: flex;
+  justify-content: space-between;
+  gap: 55px;
+  margin-top: 120px;
+  padding-top: 100px;
+  padding-left: 53px;
+  padding-bottom: 100px;
+  padding-right: 53px;
+}
+.quality-wrapped .quality-icon-text {
+  display: flex;
+
+  gap: 6px;
+  color: black;
+  font-family: Arial;
+}
+.quality-wrapped .title-description {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+.quality-wrapped .heading-title {
+  font-size: 25px;
+  color: rgba(36, 36, 36, 1);
+  font-weight: var(--fw-semiBold);
+}
+
+.quality-wrapped .description {
+  color: rgba(137, 137, 137, 1);
+  font-size: 20px;
+}

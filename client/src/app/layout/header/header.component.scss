@@ -45,6 +45,9 @@
         margin-right: 150px;
         border: 1px solid var(--clr-grey-light);
       }
+      & > img {
+        cursor: pointer;
+      }
     }
     .productsInCart {
       margin-top: 42px;

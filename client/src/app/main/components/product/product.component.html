@@ -38,14 +38,14 @@
             <img src="" alt="">
           </picture>
       </div>
-      <picture>
-        <source srcset="assets/productImages/ProductImage.svg" media="(min-width: 600px)">
+      <picture class="image-background">
+        <source srcset="{{ product.cover_photo }}" media="(min-width: 600px)">
         <img src="" alt="">
       </picture>
     </div>
     <div class="product-info">
-      <h2 class="product-name">{{ produtTitle }}</h2>
-      <span class="product-price">Rs. {{ price }}</span>
+      <h2 class="product-name">{{ product.name }}</h2>
+      <span class="product-price">Rs. {{ product.price }}</span>
       <div class="reviews-holder">
         <div class="stars">
           <picture>
@@ -74,15 +74,15 @@
         </div>
       </div>
       <div class="description-holder">
-        <p class="description">Setting the bar as one of the loudest speakers in its class, the Kilburn is a compact, stout-hearted hero with a well-balanced audio which boasts a clear midrange and extended highs for a sound.</p>
+        <p class="description">{{ product.description }}</p>
       </div>
       <div class="sizes-holder">
         <span class="sizes-title">Size</span>
         <div class="sizes">
-          <div *ngFor="let size of sizes; let i = index"
+          <div *ngFor="let size of product.sizes; let i = index"
                class="size-button"
                [class.active]="currentPrimaryImage === i"
-               (click)="selectSize(i)">
+               (click)="selectSize(i)"> 
                <span>{{ size }}</span>
           </div>
         </div>
@@ -90,7 +90,7 @@
       <div class="colors-holder">
         <span class="colors-title">Colors</span>
         <div class="colors">
-          <div *ngFor="let color of colors; let i = index"
+          <div *ngFor="let color of product.colors; let i = index"
                class="color"
                [class.active]="currentColor === i"
                (click)="selectColor(i)"
@@ -107,7 +107,8 @@
                   (click)="increaseQuantity()">+
           </button>
         </div>
-        <button class="button addToCard">
+        <button (click)="addToCart()"
+                class="button addToCard">
           Add To Cart
         </button>
         <button class="button compare">

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ProductsService } from '../../services/products.service';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Product } from '../../models/product';
 
 @Component({
   selector: 'app-product',
@@ -12,6 +13,8 @@ export class ProductComponent {
   sizes: string[] = ["L", "XL", "XS"];
   produtTitle: string = "Asgaard sofa";
   price: string = "250,000.00";
+  product!: Product;
+  cart: object[] = [];
   currentPrimaryImage: any = 0;
   currentColor: any = 0;
   test: any = 1;
@@ -29,10 +32,10 @@ export class ProductComponent {
       this.productId = param['id']
     })
 
-    // this.productService.getProduct(this.productId).subscribe(
-    //   rep => {
-    //     rep.
-    // })
+    this.productService.getProduct(this.productId).subscribe(
+      res => {
+        this.product = res;
+    })
   }
 
   selectSize(i: number) {
@@ -53,5 +56,22 @@ export class ProductComponent {
   increaseQuantity() {
     this.quantity++;  
   }
+ 
+  addToCart() {
 
+    const value = {
+      id: this.product.id
+    }
+    let cartFromStorage = localStorage.getItem("cart");
+
+    if(cartFromStorage) {
+      try {
+        this.cart = JSON.parse(cartFromStorage);
+      }
+      catch {}
+    }
+    
+    this.cart.push(value);
+    localStorage.setItem("cart", JSON.stringify(this.cart));
+  }
 }

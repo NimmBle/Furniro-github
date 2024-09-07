@@ -1,0 +1,120 @@
+
+.form-page .form-page-wrapped {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 100px;
+  padding-inline: 180px 100px; 
+}
+.form-page .form-title {
+  padding-left: 180px;
+  font-size: 36px;
+  font-weight: var(--fw-semiBold);
+}
+.form-page .names-wrapped {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 79px;
+  max-width: 475px;
+}
+.form-page .names {
+  display: flex;
+  flex-direction: column;
+}
+.form-page .names-wrapped input[type="text"],
+select {
+  width: 180px;
+  height: 75px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid rgba(159, 159, 159, 1);
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+.form-page .label {
+  font-size: 16px;
+  color: black;
+  font-family: Arial;
+}
+input[type="text"],
+select {
+  width: 400px;
+  height: 75px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid rgba(159, 159, 159, 1);
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+datalist {
+  border: 1px solid rgba(159, 159, 159, 1);
+  border-radius: 10px;
+  width: 400px;
+  height: 75;
+  box-sizing: border-box;
+}
+.form-page .other-info {
+  display: grid;
+  grid-template-rows: 0.5fr 0.2fr 1f;
+  max-width: 600px;
+  max-height: 800px;
+  font-family: Arial;
+}
+.form-page .before-line {
+  display: flex;
+  justify-content: space-between;
+  font-family: Arial;
+}
+.form-page .after-line {
+}
+.form-page .grey-radio-button {
+  color: rgba(159, 159, 159, 1);
+  font-weight: 500;
+}
+.form-page .description-of-radio-button {
+  color: rgba(159, 159, 159, 1);
+}
+.form-page .different-color-text {
+  display: flex;
+  flex-direction: row;
+  gap: 11px;
+  align-items: center;
+}
+.form-page .grey-description {
+  color: rgba(159, 159, 159, 1);
+}
+.form-page .total {
+  font-size: 24px;
+  color: rgba(184, 142, 47, 1);
+  font-weight: 700;
+}
+.form-page .subtotal-side {
+  display: flex;
+  flex-direction: column;
+  row-gap: 22px;
+}
+.form-page .product-side {
+  display: flex;
+  flex-direction: column;
+  row-gap: 22px;
+}
+.form-page .line {
+  color: rgba(217, 217, 217, 1);
+  width: 530px;
+  height: 1px;
+  margin-top: 33px;
+}
+.form-page .order-button {
+  border-radius: 15px;
+  border-width: 1px;
+  border-color: solid black;
+  color: black;
+  width: 320px;
+  height: 64px;
+  background-color: white;
+}
+.form-page .bolded {
+  font-weight: 700;
+}

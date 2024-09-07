@@ -3,6 +3,7 @@ import { ProductsService } from '../../services/products.service';
 import { CategoriesService } from '../../services/categories.service';
 import { Product } from '../../models/product';
 import anime from 'animejs/lib/anime.es.js';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,8 @@ export class HomeComponent {
 
   constructor(
     private productService: ProductsService,
-    private categoryService: CategoriesService ) 
+    private categoryService: CategoriesService,
+    private router: Router ) 
   {}
   
   products: Array<Product> = [];
@@ -41,5 +43,12 @@ export class HomeComponent {
         this.products = res.data;
       }
     );
+  }
+  redirectToProductDetailPage(id: any) {
+    this.productService.getProduct(id).subscribe(
+      res => {
+        this.router.navigate(['/main/product/', id]);
+      }
+    )
   }
 }
